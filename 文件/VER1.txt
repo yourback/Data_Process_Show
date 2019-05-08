@@ -1,0 +1,21 @@
+varstarta0;a1;a2;a3;a4;a5;a6;a7;a9;a10;a11;a12;a13;a14;a15;a16;a34;pitch2;pitch5;pitch2_delt;pitch5_delt;pitch4_delt;pitch6_delt;Kuan_runstatus;Kuan_statuscounter;status_control;Kuan_statuscounter_time3;Kuan_statuscounter_temp;status_counter;VALVE;test                    varend
+programstarta0[i] -= a9[i]
+a1[i] -= a10[i]
+a2[i] -= a11[i]
+a3[i] -= a12[i]
+a4[i] -= a13[i]
+a5[i] -= a14[i]
+a6[i] -= a15[i]
+a7[i] -= a16[i]
+
+a34[i] -= 0
+
+pitch2[i]=(a0[i] << 8) + a1[i]
+if pitch2[i] > 32767:
+  pitch2[i] = ~pitch2[i] & 0xffff
+  pitch2[i] += 1
+  pitch2[i] = -pitch2[i]
+else:
+  pitch2[i] = pitch2[i]
+
+programend

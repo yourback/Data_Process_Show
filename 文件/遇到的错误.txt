@@ -1,0 +1,3 @@
+x and y must have same first dimension, but have shapes (3,) and (20,)
+
+画图的xy轴的数据不同

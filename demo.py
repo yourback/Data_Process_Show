@@ -5,12 +5,14 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QAbstractIte
 from data_show.mainview import Ui_MainWindow
 
 # 文件操作
-from data_show.plot import MatplotlibDialog
 from data_process.varsprocess import vars_process
 from file_operation.getlinesnum import GetLineWorker
 from file_operation.loadprogram import load_program
 from file_operation.saveprogram import save_program
 from file_operation.selectsourcefile import get_source_data_file
+
+# dialog
+from data_show.mpldview import MPLDialog
 
 
 class Window(QMainWindow, Ui_MainWindow):
@@ -67,8 +69,9 @@ class Window(QMainWindow, Ui_MainWindow):
                 vars_name.append(nickname)
                 vars_value.append(self.name_value[nickname[:nickname.rindex('(')]])
             # print('画图')
-            ui = MatplotlibDialog(title=vars_name.__str__())
-            ui.mpl.start_static_plot(vars_name, vars_value)
+            ui = MPLDialog(title=vars_name.__str__())
+            ui.start_plot(vars_name, vars_value)
+            # ui.mpl.start_static_plot(vars_name, vars_value)
             ui.show()
             ui.exec_()
 
