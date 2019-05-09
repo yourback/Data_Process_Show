@@ -32,9 +32,9 @@ class MPLDialog(QDialog, Ui_Dialog):
             y_text = ''
             for i, v in enumerate(self.namelist):
                 if y_text:
-                    y_text = y_text + '对应x坐标%s的%s值为：%s\n' % (x, v, self.valuelist[i][x_index if x_index > 0 else 0])
+                    y_text = y_text + 'x:%s    %s：%s\n' % (x, v, self.valuelist[i][x_index if x_index > 0 else 0])
                 else:
-                    y_text = '对应x坐标%s的%s值为：%s\n' % (x, v, self.valuelist[i][x_index if x_index > 0 else 0])
+                    y_text = 'x:%s    %s：%s\n' % (x, v, self.valuelist[i][x_index if x_index > 0 else 0])
                 # print(y_text)
             self.showydata.setText(y_text)
         except Exception as e:
