@@ -1,10 +1,7 @@
 import matplotlib.pyplot as plt
-import numpy as np
 
-from matplotlib.patches import Circle
-from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,
+from matplotlib.offsetbox import (TextArea,
                                   AnnotationBbox)
-from matplotlib.cbook import get_sample_data
 
 
 def draw(ax, xy):

@@ -28,14 +28,15 @@ class MPLDialog(QDialog, Ui_Dialog):
             if x_index > len(self.valuelist[0]):
                 x_index = len(self.valuelist[0]) - 1
 
-            # print('x_index:%s' % x_index)
+            x_index = x_index if x_index > 0 else 0
+
             y_text = ''
             for i, v in enumerate(self.namelist):
                 if y_text:
-                    y_text = y_text + 'x:%s    %s：%s\n' % (x, v, self.valuelist[i][x_index if x_index > 0 else 0])
+                    y_text = y_text + '数组位数:%s    %s：%s\n' % (
+                        x_index, v, self.valuelist[i][x_index])
                 else:
-                    y_text = 'x:%s    %s：%s\n' % (x, v, self.valuelist[i][x_index if x_index > 0 else 0])
-                # print(y_text)
+                    y_text = '数组位数:%s    %s：%s\n' % (x_index, v, self.valuelist[i][x_index])
             self.showydata.setText(y_text)
         except Exception as e:
             print(e)

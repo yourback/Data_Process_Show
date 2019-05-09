@@ -13,6 +13,7 @@ from file_operation.selectsourcefile import get_source_data_file
 
 # dialog
 from data_show.mpldview import MPLDialog
+from data_show.amdialog import AMDialog
 
 
 class Window(QMainWindow, Ui_MainWindow):
@@ -48,6 +49,15 @@ class Window(QMainWindow, Ui_MainWindow):
 
         # 生成折线图
         self.btn_paint.clicked.connect(self.btn_paint_click)
+
+        # 更新日志
+        self.about.clicked.connect(self.about_click)
+
+    def about_click(self):
+        '''查看升级日志'''
+        ui = AMDialog()
+        # ui.show()
+        ui.exec()
 
     def btn_novars_click(self):
         '''清空选择变量'''

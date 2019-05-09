@@ -63,7 +63,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "图形"))
-        self.showydata.setText(_translate("Dialog", "TextLabel"))
+        self.showydata.setText(_translate("Dialog", "请点击目的点附近，查看该点相关信息"))
 
 
 from data_show.plot import MatplotlibDialog

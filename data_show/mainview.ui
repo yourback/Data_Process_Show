@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>388</width>
+    <width>411</width>
     <height>640</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>数据编程显示系统</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,6,3">
+   <layout class="QVBoxLayout" name="verticalLayout_4" stretch="1,6,3,0">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <property name="spacing">
@@ -234,10 +234,44 @@
       </item>
      </layout>
     </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="LabelClickable" name="about">
+        <property name="text">
+         <string>当前版本号：V0.2</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LabelClickable</class>
+   <extends>QLabel</extends>
+   <header>diy_widget.label_clickable</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

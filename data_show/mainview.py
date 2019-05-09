@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(388, 640)
+        MainWindow.resize(411, 640)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -117,6 +117,15 @@ class Ui_MainWindow(object):
         self.layout_varchoose.setStretch(2, 2)
         self.layout_varchoose.setStretch(3, 1)
         self.verticalLayout_4.addLayout(self.layout_varchoose)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
+        self.about = LabelClickable(self.centralwidget)
+        self.about.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.about.setObjectName("about")
+        self.horizontalLayout.addWidget(self.about)
+        self.verticalLayout_4.addLayout(self.horizontalLayout)
         self.verticalLayout_4.setStretch(0, 1)
         self.verticalLayout_4.setStretch(1, 6)
         self.verticalLayout_4.setStretch(2, 3)
@@ -141,4 +150,8 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "=>"))
         self.btn_novars.setText(_translate("MainWindow", "清空"))
         self.btn_paint.setText(_translate("MainWindow", "生成\n"
-                                                        "折线图"))
+"折线图"))
+        self.about.setText(_translate("MainWindow", "当前版本号：V0.2"))
+
+
+from diy_widget.label_clickable import LabelClickable

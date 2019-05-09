@@ -75,7 +75,7 @@
         </font>
        </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>请点击目的点附近，查看该点相关信息</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
