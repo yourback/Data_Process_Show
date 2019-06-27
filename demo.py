@@ -1,11 +1,13 @@
 import sys
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QAbstractItemView, QInputDialog
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QAbstractItemView
 
 from data_show.mainview import Ui_MainWindow
 
 # 文件操作
 from data_process.varsprocess import vars_process
+from diy.aboutdialog.amdialog import AMDialog
+from diy.settings import version_code, app_name
 from file_operation.getlinesnum import GetLineWorker
 from file_operation.loadprogram import load_program
 from file_operation.saveprogram import save_program
@@ -13,7 +15,6 @@ from file_operation.selectsourcefile import get_source_data_file
 
 # dialog
 from data_show.mpldview import MPLDialog
-from data_show.amdialog import AMDialog
 
 
 class Window(QMainWindow, Ui_MainWindow):
@@ -24,6 +25,10 @@ class Window(QMainWindow, Ui_MainWindow):
         self.init_ui()
         # 变量名与变量值的对应的字典
         self.name_value = {}
+        # 软件名称
+        self.setWindowTitle(app_name)
+        # 软件版本
+        self.about.setText(version_code)
 
     def init_ui(self):
         # 首先将后两个不布局设置隐藏
@@ -77,10 +82,13 @@ class Window(QMainWindow, Ui_MainWindow):
             for i in range(self.varsselect.count()):
                 nickname = self.varsselect.item(i).text()
                 vars_name.append(nickname)
-                vars_value.append(self.name_value[nickname[:nickname.rindex('(')]])
+                # V0.2 有备注
+                # vars_value.append(self.name_value[nickname[:nickname.rindex('(')]])
+                # V0.3 无备注
+                vars_value.append(self.name_value[nickname])
             # print('画图')
             ui = MPLDialog(title=vars_name.__str__())
-            ui.start_plot(vars_name, vars_value)
+            ui.start_plot(vars_name, vars_value, self.cb_o.isChecked())
             # ui.mpl.start_static_plot(vars_name, vars_value)
             ui.show()
             ui.exec_()
@@ -94,19 +102,29 @@ class Window(QMainWindow, Ui_MainWindow):
         #     print('eval出错了：%s' % error)
         # 是否已经选择过了
         isSelected = False
+        # V0.3 需求删除备注，直接添加到self.varsselect中
         if self.varsselect:
             for i in range(self.varsselect.count()):
                 txt = self.varsselect.item(i).text()
-                if txt[:txt.rindex('(')] == item.text():
+                if txt == item.text():
                     isSelected = True
                     QMessageBox.information(self, '提示', '这个变量已经选择过了')
         if not isSelected:
-            text, ok = QInputDialog.getText(self, '名称设置', '输入%s的名称：' % item.text())
-            if ok:
-                if text:
-                    self.varsselect.addItem('%s(%s)' % (item.text(), text.strip()))
-                else:
-                    QMessageBox.information(self, '提示', '请输入变量名称')
+            self.varsselect.addItem(item.text())
+        # 以下是V0.2 有备注
+        # if self.varsselect:
+        #     for i in range(self.varsselect.count()):
+        #         txt = self.varsselect.item(i).text()
+        #         if txt[:txt.rindex('(')] == item.text():
+        #             isSelected = True
+        #             QMessageBox.information(self, '提示', '这个变量已经选择过了')
+        # if not isSelected:
+        #     text, ok = QInputDialog.getText(self, '名称设置', '输入%s的名称：' % item.text())
+        #     if ok:
+        #         if text:
+        #             self.varsselect.addItem('%s(%s)' % (item.text(), text.strip()))
+        #         else:
+        #             QMessageBox.information(self, '提示', '请输入变量名称')
 
     def vars_select_doubleclick(self, item):
         # print('变量显示框，点击事件')
@@ -129,8 +147,11 @@ class Window(QMainWindow, Ui_MainWindow):
     def btn_load_program_click(self):
         '''加载程序点击事件'''
         var, program = load_program(self)
-        self.le_vars.setText(var)
-        self.te_program.setText(program)
+        if var and program:
+            self.le_vars.setText(var)
+            self.te_program.setText(program)
+            self.varsselect.clear()
+            self.varslist.clear()
 
     def btn_save_program_click(self):
         '''保存程序点击事件'''
@@ -169,8 +190,16 @@ class Window(QMainWindow, Ui_MainWindow):
                 # 执行成功，添加变量到下面的列表
                 # print(vars_name_list)
                 self.varslist.clear()
-                self.varsselect.clear()
+                # self.varsselect.clear()
                 self.varslist.addItems(vars_name_list)
+                print('运行结果变量列表%s' % vars_name_list)
+                # V0.3 检查是否在变量列表中有这一项，没有的话就删除，有的话就保留这个已经选择的变量
+                for i in range(self.varsselect.count()):
+                    txt = self.varsselect.item(i).text()
+                    print('已经选择变量：%s' % txt)
+                    if txt not in vars_name_list:
+                        print('%s在变量列表中不存在' % txt)
+                        self.varsselect.takeItem(i)
 
                 # 清空之前的运算结果
                 self.name_value.clear()

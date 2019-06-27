@@ -26,10 +26,10 @@ class MyMplCanvas(FigureCanvas):
         FigureCanvas.setSizePolicy(self, QSizePolicy.Expanding, QSizePolicy.Expanding)
         FigureCanvas.updateGeometry(self)
 
-    def start_static_plot(self, var_name_list, var_value_list):
+    def start_static_plot(self, var_name_list, var_value_list, is_show_o):
         t = arange(0, len(var_value_list[0]) * 0.02, 0.02)
         for i, var_name in enumerate(var_name_list):
-            self.axes.plot(t, var_value_list[i], '-o', label=var_name)
+            self.axes.plot(t, var_value_list[i], '-o' if is_show_o else '-', label=var_name)
 
         self.axes.grid(True)
         self.axes.legend()

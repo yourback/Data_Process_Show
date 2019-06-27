@@ -43,10 +43,10 @@ class MPLDialog(QDialog, Ui_Dialog):
             QMessageBox.information(self, '提示', '未点击坐标系区域内')
 
     # 绘图
-    def start_plot(self, var_name_list, var_value_list):
+    def start_plot(self, var_name_list, var_value_list,is_show_o):
         self.namelist = var_name_list
         self.valuelist = var_value_list
-        self.mplw.mpl.start_static_plot(var_name_list, var_value_list)
+        self.mplw.mpl.start_static_plot(var_name_list, var_value_list,is_show_o)
 
 
 if __name__ == '__main__':
