@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(411, 640)
+        MainWindow.resize(413, 640)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -118,9 +118,10 @@ class Ui_MainWindow(object):
         self.btn_paint.setObjectName("btn_paint")
         self.verticalLayout.addWidget(self.btn_paint)
         self.layout_varchoose.addLayout(self.verticalLayout)
-        self.layout_varchoose.setStretch(0, 1)
+        self.layout_varchoose.setStretch(0, 2)
         self.layout_varchoose.setStretch(1, 1)
         self.layout_varchoose.setStretch(2, 2)
+        self.layout_varchoose.setStretch(3, 1)
         self.verticalLayout_4.addLayout(self.layout_varchoose)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")

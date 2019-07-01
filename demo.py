@@ -7,6 +7,7 @@ from data_show.mainview import Ui_MainWindow
 # 文件操作
 from data_process.varsprocess import vars_process
 from diy.aboutdialog.amdialog import AMDialog
+from diy.processbardialog.processbardialog import PROCESSDialog
 from diy.settings import version_code, app_name
 from file_operation.getlinesnum import GetLineWorker
 from file_operation.loadprogram import load_program
@@ -22,7 +23,10 @@ class Window(QMainWindow, Ui_MainWindow):
         super(Window, self).__init__(parent)
         self.setupUi(self)
         self.lines_worker = GetLineWorker()
+        # 界面初始化
         self.init_ui()
+        # dialog初始化
+        self.init_dialog()
         # 变量名与变量值的对应的字典
         self.name_value = {}
         # 软件名称
@@ -39,6 +43,11 @@ class Window(QMainWindow, Ui_MainWindow):
         self.varsselect.setEditTriggers(QAbstractItemView.NoEditTriggers)
         # 各种监听的设置
         self.init_listener()
+
+    # dialog初始化
+    def init_dialog(self):
+        self.about_dialog = AMDialog()
+        # self.process_dialog = PROCESSDialog()
 
     def init_listener(self):
         self.choosefile.clicked.connect(self.choose_file)
@@ -60,9 +69,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def about_click(self):
         '''查看升级日志'''
-        ui = AMDialog()
-        # ui.show()
-        ui.exec()
+        self.about_dialog.exec()
 
     def btn_novars_click(self):
         '''清空选择变量'''
@@ -168,31 +175,28 @@ class Window(QMainWindow, Ui_MainWindow):
         program = self.te_program.toPlainText()
         if var and program:
             # 变量处理
-            vars_name = self.le_vars.text()
+            vars_name = self.le_vars.text().replace(' ', '')
             vars_name_list = vars_name.split(';')
-            # print(vars_name_list)
+            # 消除重复的变量
             vars_name_list = list(set(vars_name_list))
+            # 获得变量数据
             vars_value_list = vars_process(vars_name_list, self.linesnum, self.filename.text())
-            # print(vars_value_list)
             try:
+                # 变量赋值
+                self.update_status('变量赋值中')
                 for i, _ in enumerate(vars_name_list):
                     sen = '%s=%s' % (vars_name_list[i], vars_value_list[i])
-                    # print(sen)
                     exec(sen)
-                    # exec('''print('%s的值为%s')''' % (str(vars_name_list[i]), str(vars_value_list[i])))
+
                 # 用户自定义程序运行
+                self.update_status('程序运行')
                 for i in range(self.linesnum):
+                    self.update_status('进度 %s/%s' % (i, self.linesnum))
                     program = self.te_program.toPlainText()
-                    # print(program)
                     exec(program)
 
-                QMessageBox.information(self, '提示', '执行完毕', QMessageBox.Yes)
-                # 执行成功，添加变量到下面的列表
-                # print(vars_name_list)
                 self.varslist.clear()
-                # self.varsselect.clear()
                 self.varslist.addItems(vars_name_list)
-                print('运行结果变量列表%s' % vars_name_list)
                 # V0.3 检查是否在变量列表中有这一项，没有的话就删除，有的话就保留这个已经选择的变量
                 for i in range(self.varsselect.count()):
                     txt = self.varsselect.item(i).text()
@@ -204,12 +208,12 @@ class Window(QMainWindow, Ui_MainWindow):
                 # 清空之前的运算结果
                 self.name_value.clear()
                 # 保存这次运算结果
+                self.update_status('保存运行结果')
                 for var_name in vars_name_list:
                     self.name_value[var_name] = eval(var_name)
-                # print("结果：%s" % self.name_value)
-                # print(self.name_value)
+                self.update_status('运行结束')
+                QMessageBox.information(self, '提示', '执行完毕', QMessageBox.Yes)
             except Exception as error:
-                print(error)
                 QMessageBox.warning(self, '程序错误', error.__str__(), QMessageBox.Yes)
         else:
             QMessageBox.information(self, '错误', '请填写变量和程序', QMessageBox.Yes)
@@ -219,6 +223,11 @@ class Window(QMainWindow, Ui_MainWindow):
         if event.key() == Qt.Key_S:
             if self.te_program.hasFocus() or self.le_vars.hasFocus():
                 self.btn_save_program_click()
+
+    # 刷新状态栏
+    def update_status(self, str_status_text):
+        self.statusbar.showMessage('运行状态：%s' % str_status_text, 1000)
+        QApplication.processEvents()
 
 
 if __name__ == '__main__':

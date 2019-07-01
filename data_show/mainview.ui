@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>411</width>
+    <width>413</width>
     <height>640</height>
    </rect>
   </property>
@@ -176,7 +176,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="layout_varchoose" stretch="1,1,2,0">
+     <layout class="QHBoxLayout" name="layout_varchoose" stretch="2,1,2,1">
       <item>
        <widget class="QListWidget" name="varslist"/>
       </item>
@@ -280,7 +280,7 @@
   <customwidget>
    <class>LabelClickable</class>
    <extends>QLabel</extends>
-   <header>diy_widget.label_clickable</header>
+   <header>diy.label_clickable</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>598</width>
-    <height>529</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -31,7 +31,7 @@
   <property name="modal">
    <bool>false</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="3,1">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="10,1">
    <property name="sizeConstraint">
     <enum>QLayout::SetDefaultConstraint</enum>
    </property>

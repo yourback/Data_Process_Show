@@ -1,3 +1,4 @@
+from PyQt5.QtGui import QTextCursor
 from PyQt5.QtWidgets import QDialog, QApplication
 
 from diy.aboutdialog.aboutme import Ui_Dialog
@@ -11,6 +12,10 @@ class AMDialog(QDialog, Ui_Dialog):
         self.textBrowser.setText(update_log)
         self.version_code.setText(version_code)
         self.app_name.setText('软件名称：%s' % app_name)
+
+    def closeEvent(self, QCloseEvent):
+        # 每次关闭的时候 滚动到开始
+        self.textBrowser.moveCursor(QTextCursor.Start)
 
 
 if __name__ == '__main__':
