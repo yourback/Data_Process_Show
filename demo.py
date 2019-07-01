@@ -1,13 +1,15 @@
 import sys
+import time
+
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QAbstractItemView
+from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QAbstractItemView, QSplashScreen
 
 from data_show.mainview import Ui_MainWindow
 
 # 文件操作
 from data_process.varsprocess import vars_process
 from diy.aboutdialog.amdialog import AMDialog
-from diy.processbardialog.processbardialog import PROCESSDialog
 from diy.settings import version_code, app_name
 from file_operation.getlinesnum import GetLineWorker
 from file_operation.loadprogram import load_program
@@ -232,6 +234,24 @@ class Window(QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    # 定义QSplashScreen 插入启动页背景图
+    splash = QSplashScreen(QPixmap("文件/splash.jpg"))
+    # splash.resize(400, 200)
+
+    splash.show()
+    # 定义字体格式
+    font = QFont()
+    font.setPointSize(16)
+    font.setBold(True)
+    font.setWeight(75)
+    splash.setFont(font)
+    splash.showMessage("程序启动中", Qt.BottomRightCorner, Qt.red)
+    app.processEvents()
+    time.sleep(1)
+    # 设置进程，启动加载页面时可以进行其他操作而不会卡死
+    app.processEvents()
     win = Window()
     win.show()
+    # 结束启动页
+    splash.finish(win)
     sys.exit(app.exec_())
