@@ -75,9 +75,11 @@ class Window(QMainWindow, Ui_MainWindow):
 
     def btn_novars_click(self):
         '''清空选择变量'''
-        self.name_value.clear()
+        # self.name_value.clear()
         if self.varsselect.count() != 0:
             self.varsselect.clear()
+            # for i in range(self.varsselect.count()):
+            #     self.varsselect.removeItemWidget(self.varsselect.takeItem(i))
         else:
             QMessageBox.information(self, '提示', '您还就没有选择变量')
 
@@ -184,6 +186,8 @@ class Window(QMainWindow, Ui_MainWindow):
             # 获得变量数据
             vars_value_list = vars_process(vars_name_list, self.linesnum, self.filename.text())
             try:
+                # 软件不可以点击
+                self.window().setEnabled(False)
                 # 变量赋值
                 self.update_status('变量赋值中')
                 for i, _ in enumerate(vars_name_list):
@@ -214,6 +218,8 @@ class Window(QMainWindow, Ui_MainWindow):
                 for var_name in vars_name_list:
                     self.name_value[var_name] = eval(var_name)
                 self.update_status('运行结束')
+                # 全部控件可以点击
+                self.window().setEnabled(True)
                 QMessageBox.information(self, '提示', '执行完毕', QMessageBox.Yes)
             except Exception as error:
                 QMessageBox.warning(self, '程序错误', error.__str__(), QMessageBox.Yes)
@@ -230,6 +236,21 @@ class Window(QMainWindow, Ui_MainWindow):
     def update_status(self, str_status_text):
         self.statusbar.showMessage('运行状态：%s' % str_status_text, 1000)
         QApplication.processEvents()
+
+    # 所有按钮都不能使用
+    def all_able(self, b):
+        self.varsselect.setEnabled(b)
+        self.varslist.setEnabled(b)
+        self.choosefile.setEnabled(b)
+        self.filename.setEnabled(b)
+        self.le_vars.setEnabled(b)
+        self.te_program.setEnabled(b)
+        self.btn_loadprogram.setEnabled(b)
+        self.btn_paint.setEnabled(b)
+        self.btn_novars.setEnabled(b)
+        self.btn_run.setEnabled(b)
+        self.btn_saveprogram.setEnabled(b)
+        self.cb_o.setEnabled(b)
 
 
 if __name__ == '__main__':
