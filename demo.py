@@ -2,22 +2,20 @@ import sys
 import time
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap, QFont
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QAbstractItemView, QSplashScreen
-
-from data_show.mainview import Ui_MainWindow
 
 # 文件操作
 from data_process.varsprocess import vars_process
+from data_show.mainview import Ui_MainWindow
+# dialog
+from data_show.mpldview import MPLDialog
 from diy.aboutdialog.amdialog import AMDialog
 from diy.settings import version_code, app_name
 from file_operation.getlinesnum import GetLineWorker
 from file_operation.loadprogram import load_program
 from file_operation.saveprogram import save_program
 from file_operation.selectsourcefile import get_source_data_file
-
-# dialog
-from data_show.mpldview import MPLDialog
 
 
 class Window(QMainWindow, Ui_MainWindow):
@@ -65,7 +63,6 @@ class Window(QMainWindow, Ui_MainWindow):
 
         # 生成折线图
         self.btn_paint.clicked.connect(self.btn_paint_click)
-
         # 更新日志
         self.about.clicked.connect(self.about_click)
 
@@ -210,7 +207,6 @@ class Window(QMainWindow, Ui_MainWindow):
                     if txt not in vars_name_list:
                         print('%s在变量列表中不存在' % txt)
                         self.varsselect.takeItem(i)
-
                 # 清空之前的运算结果
                 self.name_value.clear()
                 # 保存这次运算结果
@@ -219,12 +215,14 @@ class Window(QMainWindow, Ui_MainWindow):
                     self.name_value[var_name] = eval(var_name)
                 self.update_status('运行结束')
                 # 全部控件可以点击
-                self.window().setEnabled(True)
+                # self.window().setEnabled(True)
                 QMessageBox.information(self, '提示', '执行完毕', QMessageBox.Yes)
             except Exception as error:
+                print('error：%s' % error.__str__())
                 QMessageBox.warning(self, '程序错误', error.__str__(), QMessageBox.Yes)
         else:
             QMessageBox.information(self, '错误', '请填写变量和程序', QMessageBox.Yes)
+        self.window().setEnabled(True)
 
     def keyPressEvent(self, event):
         '''键盘点击'''
@@ -256,17 +254,16 @@ class Window(QMainWindow, Ui_MainWindow):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     # 定义QSplashScreen 插入启动页背景图
-    splash = QSplashScreen(QPixmap("文件/splash.jpg"))
+    splash = QSplashScreen(QPixmap("sourse/logo.png"))
     # splash.resize(400, 200)
-
     splash.show()
     # 定义字体格式
-    font = QFont()
-    font.setPointSize(16)
-    font.setBold(True)
-    font.setWeight(75)
-    splash.setFont(font)
-    splash.showMessage("程序启动中", Qt.BottomRightCorner, Qt.red)
+    # font = QFont()
+    # font.setPointSize(16)
+    # font.setBold(True)
+    # font.setWeight(75)
+    # splash.setFont(font)
+    # splash.showMessage("程序启动中", Qt.BottomRightCorner, Qt.red)
     app.processEvents()
     time.sleep(1)
     # 设置进程，启动加载页面时可以进行其他操作而不会卡死
